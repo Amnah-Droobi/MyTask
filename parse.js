@@ -48,8 +48,8 @@ function validateUsers(users) {
 
     let validUsers = [];
     let inValidUsers = [];
-    users.forEach(user => {
-        if (IsValid(user,users) && !(duplicateId(users, user.id))) {
+    users.forEach((user,index) => {
+        if (IsValid(user) && !(duplicateId(users, user.id))) {
 
             validUsers.push(user);
         }
@@ -63,7 +63,7 @@ function validateUsers(users) {
 
 
 }
-function IsValid(user,users) {
+function IsValid(user) {
     return (user && isValidId(user.id) && isValidEmail(user.email) && isValidAge(user.age) == true);
 
 
