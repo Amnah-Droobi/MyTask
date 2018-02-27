@@ -8,8 +8,9 @@ function main() {
     let content = fs.readFileSync('./data.csv', 'utf-8');
     let { lines, headers, keys } = parseFileToLinesAndHeaders(content);
     let users = parseLinesInToUsers(lines, keys);
-    let validation = validateUsers(users);
-    console.log(users) 
+    let {use, inValidUsers} = validateUsers(users);
+    console.log(inValidUsers) ;
+
     //console.log(validuser) ;
     // printOfValidUsers(validation.inValidUsers);
     writeUsersToFile(users);
@@ -27,8 +28,9 @@ function parseFileToLinesAndHeaders(content) {
     return { lines, headers, keys };
 }
 function parseLinesInToUsers(lines, keys) {
+    let value= [];
     let users = lines.map(line => {
-        value = line.split(',');
+      let value = line.split(',');
         let obj = {};
         keys.forEach((item, index) => {
             obj[item] = value[index];
