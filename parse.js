@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-main() ;
+main();
 
 
 
@@ -8,8 +8,8 @@ function main() {
     let content = fs.readFileSync('./data.csv', 'utf-8');
     let { lines, headers, keys } = parseFileToLinesAndHeaders(content);
     let users = parseLinesInToUsers(lines, keys);
-    let { validUser, inValidUsers} = validateUsers(users);
-    console.log(inValidUsers) ;
+    let { validUser, inValidUsers } = validateUsers(users);
+    console.log(JSON.stringify(inValidUsers));
 
     //console.log(validuser) ;
     // printOfValidUsers(validation.inValidUsers);
@@ -28,9 +28,9 @@ function parseFileToLinesAndHeaders(content) {
     return { lines, headers, keys };
 }
 function parseLinesInToUsers(lines, keys) {
-    let value= [];
+    let value = [];
     let users = lines.map(line => {
-      let value = line.split(',');
+        let value = line.split(',');
         let obj = {};
         keys.forEach((item, index) => {
             obj[item] = value[index];
@@ -48,8 +48,8 @@ function validateUsers(users) {
 
     let validUsers = [];
     let inValidUsers = [];
-    users.forEach((user) => {
-        if (IsValid(user)&& !(duplicateId(users, user.id)) ) { 
+    users.forEach(user => {
+        if (IsValid(user, users)) {
 
             validUsers.push(user);
         }
@@ -63,8 +63,8 @@ function validateUsers(users) {
 
 
 }
-function IsValid(user) {
-    return (user && isValidId(user.id) && isValidEmail(user.email) && isValidAge(user.age) == true);
+function IsValid(user, users) {
+    return (!duplicateId(users, user.id) && isValidEmail(user.email) && isValidAge(user.age) == true);
 
 
 }
@@ -72,6 +72,7 @@ function isValidId(id) {
     return id == true;
 }
 function isValidEmail(email) {
+    git
     return !!email && strConatin(email, '@');
 
 }
@@ -84,7 +85,7 @@ function isValidAge(age) {
 
 }
 function duplicateId(users, id) {
-
+    let dup = false;
     let count = 0;
     users.forEach(user => {
         if (user.id == id) {
@@ -93,12 +94,10 @@ function duplicateId(users, id) {
     });
     if (count > 1) {
         // console.log('duplicate dtected');
-        return true;
+        dup = true;
     }
-    else {
-        // console.log('not duplicated');
-        return false;
-    }
+    return dup;
+
 }
 
 function printOfValidUsers(user) {
