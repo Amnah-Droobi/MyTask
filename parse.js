@@ -10,8 +10,6 @@ function main() {
     //console.log(JSON.stringify(users));
     let { validUsers, inValidUsers } = validateUsers(users);
     //console.log(JSON.stringify(inValidUsers));
-    //console.log(validuser) ;
-    // inValidUsers);
     writeUsersToFile(users);
     printValidUsersToFile(validUsers);
     // deletedItemFromArray(users, pos, No);
