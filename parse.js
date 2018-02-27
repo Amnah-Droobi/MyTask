@@ -13,7 +13,7 @@ function main() {
 
     //console.log(validuser) ;
     // printOfValidUsers(validation.inValidUsers);
-    writeUsersToFile(users);
+   // writeUsersToFile(users);
     // deletedItemFromArray(users, pos, No);
 
 
@@ -59,12 +59,15 @@ function validateUsers(users) {
         }
     });
     return
-    { validUsers, inValidUsers }
+    {
+         validUsers,
+          inValidUsers 
+        }
 
 
 }
 function IsValid(user, users) {
-    return (!duplicateId(users, user.id) && isValidEmail(user.email) && isValidAge(user.age) == true);
+    return (!!duplicateId(users, user.id) && isValidEmail(user.email) && isValidAge(user.age) );
 
 
 }
@@ -72,7 +75,7 @@ function isValidId(id) {
     return id == true;
 }
 function isValidEmail(email) {
-    git
+    
     return !!email && strConatin(email, '@');
 
 }
