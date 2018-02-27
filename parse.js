@@ -1,102 +1,87 @@
-
 const fs = require('fs');
 
 main();
 
 
+
 function main() {
-
-    var datafromcsv = fs.readFileSync('./data.csv', 'utf-8');
-    let { lines, headers, keys } = parseFileToLinesAndHeaders(datafromcsv);
-
-    let users = parseLinesToUsers(lines, keys);
-
-    ////////// storthefileinJosn
-    let arr = {};
-    arr = validateUsers(users);
-    //validateEmail(users.email);
+    let content = fs.readFileSync('./data.csv', 'utf-8');
+    let { lines, headers, keys } = parseFileToLinesAndHeaders(content);
+    let users = parseLinesInToUsers(lines, keys);
+    let validation = validateUsers(users);
+    console.log(users) 
+    //console.log(validuser) ;
+    // printOfValidUsers(validation.inValidUsers);
     writeUsersToFile(users);
-    PrintInvalidUser(arr.validUsers);
-    //printUsers(invalidUsers) ==>
+    // deletedItemFromArray(users, pos, No);
 
-    //deleteUser(5)
-    //updateUserName(6,newName)
+
+
 }
 
-function PrintInvalidUser(validUsers) {
-    console.log(validUsers);
-}
-function parseFileToLinesAndHeaders(fileContent) {
-    let lines = fileContent.split("\n")
-    //console.log(lines);
+
+function parseFileToLinesAndHeaders(content) {
+    let lines = content.split('\n');
     let headers = lines.shift();
     let keys = headers.split(",");
-    return { lines, headers, keys }
+    return { lines, headers, keys };
 }
-
-function parseLinesToUsers (lines, keys) {
+function parseLinesInToUsers(lines, keys) {
     let users = lines.map(line => {
-        let obj = {};
         value = line.split(',');
+        let obj = {};
         keys.forEach((item, index) => {
             obj[item] = value[index];
-        });
 
+        });
         return obj;
+
     });
     return users;
+
 }
 
 
 function validateUsers(users) {
-    let validUsers = [];
-    let invalidUsers = [];
 
+    let validUsers = [];
+    let inValidUsers = [];
     users.forEach((user, index) => {
-        if (IsValidUser(user) && !testDuplicatid(user.id, users)) {
-            validUsers.push [user,index];
+        if (IsValid(user) && !(duplicateId(users, users.id))) {
+
+            validUsers.push[user];
         }
         else {
-            invalidUsers.push(user);
+            inValidUsers.push[user];
+
         }
-    })
-    return {
-        validUsers,
-        invalidUsers
-    };
-}
+    });
+    return
+    { validUsers, inValidUsers }
 
-function IsValidUser(user, users) {
-    return user && isValidId(user.id, users) && isValidEmail(user.email) && isValidAge(user.age);
-}
-function writeUsersToFile(users) {
-    let dataainjson = JSON.stringify(users);
-    fs.writeFileSync("./users.json", dataainjson);
-}
 
-//////////////// validate age of user 
-function isValidAge(age) {
-    return age > 0;
 }
+function IsValid(user, users) {
+    return (user && isValidId(user.id, users) && isValidEmail(user.email) && isValidAge(user.age) == true);
 
-function strContains(str, sub) {
-    return str.indexOf(sub) > -1
+
 }
-
-///////
-function isValidEmail(email) {
-    return !!email && strContains(email, '@');
-}
-
 function isValidId(id) {
     return id == true;
 }
+function isValidEmail(email) {
+    return !!email && strConatin(email, '@');
 
+}
+function strConatin(str, sub) {
+    return str.indexOf(sub) > -1
 
-///// 
+}
+function isValidAge(age) {
+    return age > 0;
 
-///////////// validate dupplicate id 
-function testDuplicatid(id, users) {
+}
+function duplicateId(users, id) {
 
     let count = 0;
     users.forEach(user => {
@@ -105,21 +90,19 @@ function testDuplicatid(id, users) {
         }
     });
     if (count > 1) {
-        console.log('duplicate dtected');
+        // console.log('duplicate dtected');
         return true;
     }
     else {
-        console.log('not duplicated');
+        // console.log('not duplicated');
         return false;
     }
 }
 
-///////////// 
-//testDuplicatid(101)
-//validateage() 
-
-//////// ValidationEmail 
-
-
-//)}
-
+function printOfValidUsers(user) {
+    console.log(user);
+}
+function writeUsersToFile(users) {
+    let dataainjson = JSON.stringify(users);
+    fs.writeFileSync("./users.json", dataainjson);
+}
