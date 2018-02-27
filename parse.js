@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-main();
+main() ;
 
 
 
@@ -8,7 +8,7 @@ function main() {
     let content = fs.readFileSync('./data.csv', 'utf-8');
     let { lines, headers, keys } = parseFileToLinesAndHeaders(content);
     let users = parseLinesInToUsers(lines, keys);
-    let {use, inValidUsers} = validateUsers(users);
+    let { validUser, inValidUsers} = validateUsers(users);
     console.log(inValidUsers) ;
 
     //console.log(validuser) ;
@@ -48,13 +48,13 @@ function validateUsers(users) {
 
     let validUsers = [];
     let inValidUsers = [];
-    users.forEach((user, index) => {
-        if (IsValid(user) && !(duplicateId(users, users.id))) {
+    users.forEach(user => {
+        if (IsValid(user,users) && !(duplicateId(users, user.id))) {
 
-            validUsers.push[user];
+            validUsers.push(user);
         }
         else {
-            inValidUsers.push[user];
+            inValidUsers.push(user);
 
         }
     });
@@ -63,8 +63,8 @@ function validateUsers(users) {
 
 
 }
-function IsValid(user, users) {
-    return (user && isValidId(user.id, users) && isValidEmail(user.email) && isValidAge(user.age) == true);
+function IsValid(user,users) {
+    return (user && isValidId(user.id) && isValidEmail(user.email) && isValidAge(user.age) == true);
 
 
 }
