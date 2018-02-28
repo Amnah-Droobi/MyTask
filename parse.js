@@ -12,7 +12,6 @@ function main() {
     //console.log(JSON.stringify(inValidUsers));
     writeUsersToFile(users);
     printValidUsersToFile(validUsers);
-    // deletedItemFromArray(users, pos, No);
 }
 
 function parseFileToLinesAndHeaders(content) {
